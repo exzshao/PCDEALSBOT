@@ -1,17 +1,18 @@
 # Imports
-import discord
 import os
-from dotenv import load_dotenv
-
-# Credentials
-load_dotenv('.env')
+import discord
+import environment
+import redditAPI
 
 # Intents
 intents = discord.Intents.default()
 intents.message_content = True
 client = discord.Client(intents=intents)
 
-# ???
+# Reddit
+top = redditAPI.getTopPost()
+
+# Bot Events
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
@@ -21,7 +22,8 @@ async def on_message(message):
     if message.author == client.user: 
         return
 
-    if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
+    if message.content.startswith('$top'):
+        await message.channel.send(top[0])
+        await message.channel.send(top[1])
 
-client.run(os.getenv('TOKEN'))
+client.run(environment.discordToken)
