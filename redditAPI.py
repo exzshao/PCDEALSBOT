@@ -12,6 +12,12 @@ TOKEN = res.json()['access_token']
 headers = {**headers, **{'Authorization': f"bearer {TOKEN}"}}
 
 def getTopPost(): 
-    res = requests.get("https://oauth.reddit.com/r/bapcsalescanada/top/?t=day",
+        res = requests.get("https://oauth.reddit.com/r/bapcsalescanada/top/?t=day",
                     headers=headers)
-    return [res.json()['data']['children'][0]['data']['title'], res.json()['data']['children'][0]['data']['url_overridden_by_dest']]
+        return [res.json()['data']['children'][0]['data']['title'], res.json()['data']['children'][0]['data']['url_overridden_by_dest']]
+
+def getNewPost():
+        res = requests.get("https://oauth.reddit.com/r/bapcsalescanada/new/",
+                    headers=headers)
+        return [res.json()['data']['children'][0]['data']['title'], res.json()['data']['children'][0]['data']['url_overridden_by_dest']]
+        
