@@ -1,5 +1,4 @@
 # Imports
-import os
 import discord
 import environment
 import redditAPI
@@ -12,7 +11,6 @@ intents.message_content = True
 client = discord.Client(intents=intents)
 
 # Reddit
-top = redditAPI.getTopPost()
 currentPost = redditAPI.getNewPost()
 
 # Bot Events
@@ -21,7 +19,7 @@ async def on_ready():
     print('We have logged in as {0.user}'.format(client))
     on_newPost.start()
 
-#Updating new posts every 3 seconds
+# Updating new posts every 3 seconds
 @tasks.loop(seconds=3)
 async def on_newPost():
     global currentPost
@@ -38,7 +36,8 @@ async def on_message(message):
         return
 
     if message.content.startswith('$top'):
-        await message.channel.send(top[0])
-        await message.channel.send(top[1])
+        topPost = redditAPI.getTopPost()
+        await message.channel.send(topPost[0])
+        await message.channel.send(topPost[1])
 
 client.run(environment.discordToken)
