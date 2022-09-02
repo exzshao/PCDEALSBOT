@@ -37,7 +37,6 @@ async def on_message(message):
 
     if message.content.startswith('$top'):
         topPost = redditAPI.getTopPost()
-        await message.channel.send(topPost[0])
-        await message.channel.send(topPost[1])
+        await message.channel.send(topPost[0] + '\n' + topPost[1])
 
 client.run(environment.discordToken)
